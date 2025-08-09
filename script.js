@@ -1,60 +1,81 @@
-console.log("helooo")
+let playingField=document.querySelector('.playing-field');
+let foodDirection=generateFoodDirection();
+let snakeDirection=[{
+    x:15,
+    y:10
+}];
+let direction='right';
 
-let snake=document.querySelector("#snake")
-let food=document.querySelector("#food")
+// Draw the snake
 
-var snakePosition={
-    x : 15,
-    y : 10,
-}
-function setPositionOfSnake(){
-        snake.style.gridColumn=snakePosition.x;
-        snake.style.gridRow=snakePosition.y;
-}
-// This is all the function of moving the snake
-
-function upPressed(){
-       snakePosition.y--;
-        setPositionOfSnake();
-
-}
-function leftPressed(){
-
-}
-function rightPressed(){
-
-}
-function downPressed(){
-
+function draw(){
+    playingField.innerHTML='';  
+    drawSnake();
+    makeFood() ;  
 }
 
-// This is the function of reading the key
-function startFunctionOfKey(){
-    document.addEventListener("keydown",(event) =>{
-        if(event.key==="ArrowUp"){
-           upPressed();
-        }
-         if(event.key==="ArrowDown"){
-            downPressed();
-        }
-         if(event.key==="ArrowLeft"){
-            leftPressed();
-        }
-        if(event.key==="ArrowRigh"){
-            rightPressed();
-        }
+
+function drawSnake(){
+    snakeDirection.forEach((position)=>{
+        const snake=createGameElement('div','snake');
+        setPosition(snake,position);
+        playingField.appendChild(snake)
     })
 }
 
-// This is the function of start the game
 
-function gameStart(){
-    for(let i=snakePosition.x;i<30;i++){
-       setTimeout(()=>{
-         snake.style.gridColumn=i;
-       },(i - snakePosition.x) * 500)
-    }
-    startFunctionOfKey();
+//  making the food for the snake and  set to the random position
+function makeFood(){
+    const food =createGameElement('div','food');
+    console.log(foodDirection)
+    console.log(food)
+    setPosition(food,foodDirection)
+    playingField.appendChild(food)
 }
-setPositionOfSnake();
-gameStart()
+
+function generateFoodDirection(){
+             let x=(Math.floor(Math.random()*30))+1;
+            let y=(Math.floor(Math.random()*20))+1;
+            return {x,y};
+}
+
+
+function setPosition(snake,position){
+    snake.style.gridColumn=position.x;
+    snake.style.gridRow=position.y;
+}
+
+function createGameElement(tag,idName){
+    const element=document.createElement(tag);
+    element.id=idName;
+    return element;
+}
+
+        function gameStart(){
+            const head={...snakeDirection[0]};
+                if(direction==='right'){
+                    head.x++
+                   
+                }else if(direction==='left'){
+                    head.x--;
+                }else if(direction==='up'){
+                    head.y--;
+                }else if(direction=='down'){
+                    head.y++;
+                }
+                snakeDirection.unshift(head)
+                
+                if(snakeDirection[0].x===foodDirection.x && snakeDirection[0].y===foodDirection.y){
+                    console.log("hit");
+                }else{
+                    snakeDirection.pop();
+                }
+
+        }
+
+
+setInterval(()=>{
+    // gameStart();
+    // draw();
+},300)
+
