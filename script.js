@@ -3,7 +3,19 @@
 let playingField = document.querySelector('.playing-field');
 let foodDirection = generateFoodDirection();
 let score=document.querySelector('#score-num');
+let highScoreElement=document.querySelector('#high-score-num');
+let startBtn=document.querySelector('.start-btn')
+let mainGameContainer=document.querySelector('.container');
+let start=document.querySelector('.start');
+let highScoreOnBoard=document.querySelector('#highScore');
+let scoreOnBoard=document.querySelector("#score").textContent;
+let gameOverBoard=document.querySelector(".game-overlay");
+let reStartBtn=document.querySelector(".restart-btn");
+let exitBtn=document.querySelector(".exit-btn")
+
 let scoreValue=0;
+let highScore=0;
+let gameStarted=false;
 let snakeDirection = [{
     x: 15,
     y: 10
@@ -58,6 +70,7 @@ function createGameElement(tag, idName) {
 }
 // start the game and update the value of the direction when click
 function gameStart() {
+    gameStarted=true;
     const head = { ...snakeDirection[0] };
     if (direction === 'right') {
         head.x++
@@ -129,8 +142,19 @@ document.addEventListener("keydown", function (event) {
 
 //  Game over
 
-function gameOver(){
+function gameOver(){  
         clearInterval(gameInterval);
+        mainGameContainer.style.display="none";
+        gameOverBoard.style.display="inline-block";
+        scoreOnBoard.textContent=score;
+        highScoreOnBoard.textContent=highScore;
+       reStartBtn.onclick= function(){
+            reStartGame();
+       }
+       exitBtn.onclick=function(){
+        exitGame();
+       }
+   
 }
 // move the snake 
  function setIntervalOfStart(snakeSpeed){
@@ -146,5 +170,68 @@ function gameOver(){
 // This section for the score board
 
 function setScore(){
-        score.innerHTML= scoreValue;
+        score.textContent= scoreValue.toString().padStart(3,'0');
+        if(!gameStarted){
+            if(scoreValue>highScore){
+            highScoreElement.textContent=highScore.toString().padStart(3,'0');
+             }
+        }
 }
+
+
+//  start the game on click the button of start
+
+
+ 
+    startBtn.onclick= function(){
+   mainGameContainer.style.display="inline-block";
+    start.style.display="none";
+    gameOverBoard.style.display="none"
+    console.log("working")
+    resetVariable();
+    setIntervalOfStart(snakeSpeed);
+    
+}
+
+
+// Restart the game 
+
+function reStartGame(){
+    scoreOnBoard.textContent=scoreValue;
+    highScoreOnBoard.textContent=highScore;
+    resetVariable();
+    clearInterval(gameInterval);
+    setIntervalOfStart(snakeSpeed);
+    gameOverBoard.style.display="none";
+    mainGameContainer.style.display="inline-block";
+}
+
+function exitGame(){
+    resetVariable();
+    clearInterval(gameInterval);
+    setIntervalOfStart(snakeSpeed);
+     start.style.display="inline-block";
+     gameOverBoard.style.display="none";
+}
+
+    function resetVariable(){
+        scoreValue=0;
+        // let highScore=0;
+         gameStarted=false;
+         snakeDirection = [{
+            x: 15,
+            y: 10
+        }];
+         direction = 'right';
+         gameInterval;
+         snakeSpeed=300;
+    }
+// reStartGame();
+
+reStartBtn.onclick= function(){
+            reStartGame();
+       }
+ exitBtn.onclick=function(){
+        exitGame();
+       }
+   

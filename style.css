@@ -14,8 +14,9 @@ html, body {
 color of snake ->  #F77D44 */
 
 .container{
-        
+    display: none ;
     flex-direction: column;
+   
 }
 
 /* this class create for the only of display flex */
@@ -55,6 +56,7 @@ color of snake ->  #F77D44 */
     display: grid;
     grid-template-columns: repeat(30, 20px); 
     grid-template-rows: repeat(20, 20px); 
+    
 }
 
 #snake{
@@ -68,4 +70,87 @@ color of snake ->  #F77D44 */
     width: 20px;
     background-color: red;
     border-radius: 50%;
+}
+ 
+.start-btn {
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
+    transition: all 0.3s ease;
+   /* position: absolute; */
+   margin-top: 10px;
+}
+
+.perfect{
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+
+.snake-img img{
+    height: 350px;
+    width: 350px;
+}
+.start{
+    display: none;
+}
+
+.game-overlay {
+    background: #1e1e2f;
+    color: white;
+    text-align: center;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    min-width: 300px;
+}
+
+.game-overlay h2 {
+    margin-bottom: 15px;
+    font-size: 28px;
+    color: #ff4b5c;
+}
+
+.game-overlay p {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    background: #ff4b5c;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #e63e50;
+}
+
+.exit-btn {
+    background: #ff4b5c;
+}
+
+.restart-btn {
+    background: #4caf50;
+}
+
+.restart-btn:hover {
+    background: #3f9442;
 }
