@@ -1,4 +1,4 @@
-// variables
+// variables from the HTML --->>>
 
 let playingField = document.querySelector('.playing-field');
 let foodDirection = generateFoodDirection();
@@ -8,11 +8,12 @@ let startBtn=document.querySelector('.start-btn')
 let mainGameContainer=document.querySelector('.container');
 let start=document.querySelector('.start');
 let highScoreOnBoard=document.querySelector('#highScore');
-let scoreOnBoard=document.querySelector("#score").textContent;
+let scoreOnBoard=document.querySelector("#score");
 let gameOverBoard=document.querySelector(".game-overlay");
 let reStartBtn=document.querySelector(".restart-btn");
 let exitBtn=document.querySelector(".exit-btn")
 
+// variable for the track of the values -->>>
 let scoreValue=0;
 let highScore=0;
 let gameStarted=false;
@@ -23,6 +24,8 @@ let snakeDirection = [{
 let direction = 'right';
 let gameInterval;
 let snakeSpeed=300;
+
+
 // Draw the snake
 
 function draw() {
@@ -32,8 +35,6 @@ function draw() {
         makeFood();
     }, 150)
 }
-
-
 function drawSnake() {
     snakeDirection.forEach((position) => {
         const snake = createGameElement('div', 'snake');
@@ -68,6 +69,8 @@ function createGameElement(tag, idName) {
     element.id = idName;
     return element;
 }
+
+
 // start the game and update the value of the direction when click
 function gameStart() {
     gameStarted=true;
@@ -99,21 +102,20 @@ function gameStart() {
     snakeDirection.unshift(head)
     for(let i=1;i<snakeDirection.length;i++){
         if(snakeDirection[0].x==snakeDirection[i].x && snakeDirection[0].y==snakeDirection[i].y){
-            alert("game over");
             gameOver();
         }
     }
     if (snakeDirection[0].x === foodDirection.x && snakeDirection[0].y === foodDirection.y) {
-        console.log("hit");
+        // console.log("hit");
         scoreValue++;
         setScore();
         foodDirection = generateFoodDirection();
         if(snakeSpeed>200){
-            snakeSpeed-=10;
+            snakeSpeed-=7;
             clearInterval(gameInterval);
             setIntervalOfStart(snakeSpeed);
         }else if(snakeSpeed>100){
-            snakeSpeed-=5;
+            snakeSpeed-=2;
              clearInterval(gameInterval);
             setIntervalOfStart(snakeSpeed);
         }
@@ -146,9 +148,11 @@ function gameOver(){
         clearInterval(gameInterval);
         mainGameContainer.style.display="none";
         gameOverBoard.style.display="inline-block";
-        scoreOnBoard.textContent=score;
-        highScoreOnBoard.textContent=highScore;
-       reStartBtn.onclick= function(){
+        scoreOnBoard.textContent=scoreValue.toString().padStart(3,'0');
+        console.log(scoreOnBoard);
+        highScoreOnBoard.textContent=highScore.toString().padStart(3,'0');
+        console.log(highScoreOnBoard);
+         reStartBtn.onclick= function(){
             reStartGame();
        }
        exitBtn.onclick=function(){
@@ -156,6 +160,8 @@ function gameOver(){
        }
    
 }
+
+
 // move the snake 
  function setIntervalOfStart(snakeSpeed){
     gameInterval=setInterval(() => {
@@ -165,27 +171,28 @@ function gameOver(){
 }, snakeSpeed)
  }
 
-//  setIntervalOfStart(snakeSpeed);
+
 
 // This section for the score board
 
 function setScore(){
         score.textContent= scoreValue.toString().padStart(3,'0');
-        if(!gameStarted){
-            if(scoreValue>highScore){
-            highScoreElement.textContent=highScore.toString().padStart(3,'0');
-             }
+        if(scoreValue>highScore){
+            highScore=scoreValue;
+            setHighScore();
         }
 }
 
+function setHighScore(){
+    highScoreElement.textContent=highScore.toString().padStart(3,'0');
+}
 
 //  start the game on click the button of start
 
-
- 
     startBtn.onclick= function(){
    mainGameContainer.style.display="inline-block";
     start.style.display="none";
+ 
     gameOverBoard.style.display="none"
     console.log("working")
     resetVariable();
@@ -207,16 +214,17 @@ function reStartGame(){
 }
 
 function exitGame(){
-    resetVariable();
+    localStorage.clear();
+    sessionStorage.clear();
     clearInterval(gameInterval);
-    setIntervalOfStart(snakeSpeed);
-     start.style.display="inline-block";
-     gameOverBoard.style.display="none";
+       
+    mainGameContainer.style.display="none"
+    gameOverBoard.style.display="none"
+    start.style.display="flex"
 }
 
     function resetVariable(){
-        scoreValue=0;
-        // let highScore=0;
+         scoreValue=0;
          gameStarted=false;
          snakeDirection = [{
             x: 15,
@@ -226,7 +234,7 @@ function exitGame(){
          gameInterval;
          snakeSpeed=300;
     }
-// reStartGame();
+
 
 reStartBtn.onclick= function(){
             reStartGame();
@@ -234,4 +242,14 @@ reStartBtn.onclick= function(){
  exitBtn.onclick=function(){
         exitGame();
        }
-   
+
+window.onload = function() {
+  
+    localStorage.clear();
+    sessionStorage.clear();
+    clearInterval(gameInterval);   
+    mainGameContainer.style.display="none"
+    gameOverBoard.style.display="none"
+    start.style.display="flex"
+     
+}
