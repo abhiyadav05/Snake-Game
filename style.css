@@ -75,7 +75,7 @@ color of snake ->  #F77D44 */
 .start-btn {
     background: linear-gradient(135deg, #4e54c8, #8f94fb);
     border: none;
-    color: white;
+    color: rgb(246, 243, 243);
     padding: 14px 28px;
     font-size: 18px;
     font-weight: bold;
@@ -83,7 +83,6 @@ color of snake ->  #F77D44 */
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
     transition: all 0.3s ease;
-   /* position: absolute; */
    margin-top: 10px;
 }
 

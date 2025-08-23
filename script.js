@@ -111,7 +111,7 @@ function gameStart() {
         setScore();
         foodDirection = generateFoodDirection();
         if(snakeSpeed>200){
-            snakeSpeed-=7;
+            snakeSpeed-=4;
             clearInterval(gameInterval);
             setIntervalOfStart(snakeSpeed);
         }else if(snakeSpeed>100){
